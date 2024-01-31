@@ -1,3 +1,4 @@
+const facts = require("./facts.json")
 const express = require('express')
 const app = express()
 
@@ -24,13 +25,38 @@ app.get('/greet', (req, res)=> {
 
 app.get('/math/:num1/:op/:num2', (req, res)=> {
     console.log( req.params )
-    res.send(`${req.params.num1}`)
+    let num1 = parseFloat(req.params.num1)
+    let num2 = parseFloat(req.params.num2)
+    let op = req.params.op;
+    if(op === "add")
+    {
+        res.send(`${num1} + ${num2} = ${num1 + num2}`)
+    }
+    else if(op === "subtract")
+    {
+        res.send(`${num1} - ${num2} = ${num1 - num2}`)
+    }
+    else if(op ==="times")
+    {
+        res.send(`${num1} * ${num2} = ${num1 * num2}`)
+    }
+    else if(op ==="divideby")
+    {
+        res.send(`${num1} / ${num2} = ${num1 / num2}`)
+    }
+    else
+    {
+        res.status(404, )
+    }
 })
 
 app.get('/pandorasbox', (req, res)=> {
 
     // do the work
-    const message = "DAD JOKE"
+    // const message = "DAD JOKE"
+    const length = facts.length
+    const random = Math.floor(Math.random() * length)
+    const message = facts[random].fact
 
     res.render('pandorasbox', {title: "Pandora's Box", message} )
 
