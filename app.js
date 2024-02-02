@@ -10,6 +10,8 @@ app.listen(PORT, ()=> {
     console.log( `App is running on http://localhost:${PORT}...`)
 })
 
+app.use(express.static('public'));
+
 app.get("/", (req, res) => {
 
     res.send("Good Job!")
@@ -20,7 +22,8 @@ app.get("/", (req, res) => {
 app.get('/greet', (req, res)=> {
     console.log(req.query)
 
-    res.send(`hey, ${req.query.name}`)
+    res.render('greet', {title: "Greeting", message : `Hey, ${req.query.name}, you are ${2023 - parseInt(req.query.year)} or ${2024 - parseInt(req.query.year)} years old (depending on when your birthday is)`})
+    // res.send(`Hey, ${req.query.name}, you are ${2023 - parseInt(req.query.year)} or ${2024 - parseInt(req.query.year)} years old (depending on when your birthday is)`)
 })
 
 app.get('/math/:num1/:op/:num2', (req, res)=> {
@@ -30,23 +33,31 @@ app.get('/math/:num1/:op/:num2', (req, res)=> {
     let op = req.params.op;
     if(op === "add")
     {
-        res.send(`${num1} + ${num2} = ${num1 + num2}`)
+        res.render('math', {title: "Math", message : `${num1} + ${num2} = ${num1 + num2}`})
+        // res.send(`${num1} + ${num2} = ${num1 + num2}`)
     }
     else if(op === "subtract")
     {
-        res.send(`${num1} - ${num2} = ${num1 - num2}`)
+        res.render('math', {title: "Math", message : `${num1} - ${num2} = ${num1 - num2}`})
+        // res.send(`${num1} - ${num2} = ${num1 - num2}`)
     }
     else if(op ==="times")
     {
-        res.send(`${num1} * ${num2} = ${num1 * num2}`)
+        res.render('math', {title: "Math", message : `${num1} * ${num2} = ${num1 * num2}`})
+        // res.send(`${num1} * ${num2} = ${num1 * num2}`)
     }
     else if(op ==="divideby")
     {
-        res.send(`${num1} / ${num2} = ${num1 / num2}`)
+        res.render('math', {title: "Math", message : `${num1} / ${num2} = ${num1 / num2}`})
+        // res.send(`${num1} / ${num2} = ${num1 / num2}`)
+    }
+    else if(op ==="tothepowerof")
+    {
+        res.render('math', {title: "Math", message : `${num1} ^ ${num2} = ${num1 ** num2}`})
     }
     else
     {
-        res.status(404, )
+        res.status(404, "Error 404, that operation is not supported")
     }
 })
 
@@ -78,7 +89,15 @@ app.get('/pandorasbox', (req, res)=> {
     }
     else
     {
-        res.render('pandorasbox', {title: "Pandora's Box", message: "joemomma"})
+        res.send(`<h1>Pandora's Box</h1><img src="https://random.imagecdn.app/500/500">`)
+        // fetch("https://picsum.photos/200", {
+        //     headers: {
+        //         "Accept": "image/png"
+        //     }
+        //     })
+        //     .then((data) => {
+        //         res.render('pandorasbox', {title: "Pandora's Box", message : data} )
+        //     })
     }
 
 })
